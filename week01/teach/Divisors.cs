@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 public static class Divisors {
     /// <summary>
     /// Entry point for the Divisors class
@@ -18,7 +21,16 @@ public static class Divisors {
     /// <returns>List of divisors</returns>
     private static List<int> FindDivisors(int number) {
         List<int> results = new();
-        // TODO problem 1
+
+        // Iterate from 1 up to (but not including) the number
+        for (int i = 1; i < number; i++) {
+            // Check if the number is divisible by i with no remainder
+            if (number % i == 0) {
+                // If it is a divisor, add it to the results list
+                results.Add(i);
+            }
+        }
+
         return results;
     }
 }
