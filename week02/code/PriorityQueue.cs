@@ -1,4 +1,7 @@
-﻿public class PriorityQueue
+﻿using System;
+using System.Collections.Generic;
+
+public class PriorityQueue
 {
     private List<PriorityItem> _queue = new();
 
@@ -15,6 +18,11 @@
         _queue.Add(newNode);
     }
 
+    /// <summary>
+    /// Removes and returns the item with the highest priority. If multiple items 
+    /// share the same highest priority, the one closest to the front (FIFO) is chosen.
+    /// Throws an InvalidOperationException if the queue is empty.
+    /// </summary>
     public string Dequeue()
     {
         if (_queue.Count == 0) // Verify the queue is not empty
@@ -24,14 +32,21 @@
 
         // Find the index of the item with the highest priority to remove
         var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count - 1; index++)
+        
+        // CORRECTION 1: Changed condition to 'index < _queue.Count' so the last item is evaluated.
+        for (int index = 1; index < _queue.Count; index++)
         {
-            if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
+            // CORRECTION 2: Changed '>=' to '>' to preserve FIFO order during priority ties.
+            if (_queue[index].Priority > _queue[highPriorityIndex].Priority)
                 highPriorityIndex = index;
         }
 
-        // Remove and return the item with the highest priority
+        // Save the value before removal
         var value = _queue[highPriorityIndex].Value;
+        
+        // CORRECTION 3: Physically remove the highest priority item from the internal collection.
+        _queue.RemoveAt(highPriorityIndex);
+        
         return value;
     }
 
